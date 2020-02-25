@@ -2223,8 +2223,8 @@ var keysThatRequireMenuBeingOpen = [KEY_CODES.ENTER, KEY_CODES.END, KEY_CODES.HO
     }
   },
   created: function created() {
-    this.debouncedCallback = debounce_default()(this.updateSearchQuery, this.inputDebounceDelay, {
-      leading: true,
+    this.debouncedCallback = debounce_default()(this.updateSearchQuery, this.instance.inputDebounceDelay, {
+      leading: false,
       trailing: true
     });
   },
