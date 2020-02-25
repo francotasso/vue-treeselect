@@ -1945,6 +1945,10 @@ var instanceId = 0;
     zIndex: {
       type: [Number, String],
       default: 999
+    },
+    inputDebounceDelay: {
+      type: Number,
+      default: INPUT_DEBOUNCE_DELAY
     }
   },
   data: function data() {
@@ -3321,7 +3325,7 @@ var keysThatRequireMenuBeingOpen = [KEY_CODES.ENTER, KEY_CODES.END, KEY_CODES.HO
     }
   },
   created: function created() {
-    this.debouncedCallback = debounce_default()(this.updateSearchQuery, INPUT_DEBOUNCE_DELAY, {
+    this.debouncedCallback = debounce_default()(this.updateSearchQuery, this.inputDebounceDelay, {
       leading: true,
       trailing: true
     });
