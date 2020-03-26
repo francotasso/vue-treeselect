@@ -41,6 +41,27 @@ function createAsyncOptionsStates() {
   }
 }
 
+function slugify (str) {
+  var map = {
+    // '-' : ' ',
+    // '-' : '_',
+    'a' : 'á|à|ã|â|À|Á|Ã|Â',
+    'e' : 'é|è|ê|É|È|Ê',
+    'i' : 'í|ì|î|Í|Ì|Î',
+    'o' : 'ó|ò|ô|õ|Ó|Ò|Ô|Õ',
+    'u' : 'ú|ù|û|ü|Ú|Ù|Û|Ü',
+    // 'c' : 'ç|Ç',
+    // 'n' : 'ñ|Ñ'
+  };
+  
+  str = str.toLowerCase();
+  
+  for (var pattern in map) {
+    str = str.replace(new RegExp(map[pattern], 'g'), pattern);
+  };
+  return str;
+};
+
 function stringifyOptionPropValue(value) {
   if (typeof value === 'string') return value
   if (typeof value === 'number' && !isNaN(value)) return value + ''
@@ -48,10 +69,10 @@ function stringifyOptionPropValue(value) {
   return ''
 }
 
-function match(enableFuzzyMatch, needle, haystack) {
+function match(enableFuzzyMatch, replaceAccents, needle, haystack) {
   return enableFuzzyMatch
     ? fuzzysearch(needle, haystack)
-    : includes(haystack, needle)
+    : replaceAccents ? includes(slugify(haystack), slugify(needle)) : includes(haystack, needle)
 }
 
 function getErrorMessage(err) {
@@ -644,6 +665,14 @@ export default {
       type: Number,
       default: INPUT_DEBOUNCE_DELAY,
     },
+
+    /**
+     * Replace accents for normal letter
+     */
+    replaceAccents: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   data() {
@@ -1235,11 +1264,11 @@ export default {
       this.traverseAllNodesDFS(node => {
         if (this.searchNested && splitSearchQuery.length > 1) {
           node.isMatched = splitSearchQuery.every(filterValue =>
-            match(false, filterValue, node.nestedSearchLabel),
+            match(false, false, filterValue, node.nestedSearchLabel),
           )
         } else {
           node.isMatched = this.matchKeys.some(matchKey =>
-            match(!this.disableFuzzyMatching, lowerCasedSearchQuery, node.lowerCased[matchKey]),
+            match(!this.disableFuzzyMatching, this.replaceAccents, lowerCasedSearchQuery, node.lowerCased[matchKey]),
           )
         }
 
