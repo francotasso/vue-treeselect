@@ -191,7 +191,16 @@ module.exports = require("vue");
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "Treeselect", function() { return /* reexport */ Treeselect; });
+__webpack_require__.d(__webpack_exports__, "treeselectMixin", function() { return /* reexport */ treeselectMixin; });
+__webpack_require__.d(__webpack_exports__, "LOAD_ROOT_OPTIONS", function() { return /* reexport */ LOAD_ROOT_OPTIONS; });
+__webpack_require__.d(__webpack_exports__, "LOAD_CHILDREN_OPTIONS", function() { return /* reexport */ LOAD_CHILDREN_OPTIONS; });
+__webpack_require__.d(__webpack_exports__, "ASYNC_SEARCH", function() { return /* reexport */ ASYNC_SEARCH; });
+__webpack_require__.d(__webpack_exports__, "VERSION", function() { return /* binding */ VERSION; });
 
 // EXTERNAL MODULE: external "@babel/runtime/helpers/slicedToArray"
 var slicedToArray_ = __webpack_require__(0);
@@ -560,14 +569,34 @@ function createAsyncOptionsStates() {
   };
 }
 
+function slugify(str) {
+  var map = {
+    'a': 'á|à|ã|â|À|Á|Ã|Â',
+    'e': 'é|è|ê|É|È|Ê',
+    'i': 'í|ì|î|Í|Ì|Î',
+    'o': 'ó|ò|ô|õ|Ó|Ò|Ô|Õ',
+    'u': 'ú|ù|û|ü|Ú|Ù|Û|Ü'
+  };
+  str = str.toLowerCase();
+
+  for (var pattern in map) {
+    str = str.replace(new RegExp(map[pattern], 'g'), pattern);
+  }
+
+  ;
+  return str;
+}
+
+;
+
 function stringifyOptionPropValue(value) {
   if (typeof value === 'string') return value;
   if (typeof value === 'number' && !isNaN_isNaN(value)) return value + '';
   return '';
 }
 
-function match(enableFuzzyMatch, needle, haystack) {
-  return enableFuzzyMatch ? external_fuzzysearch_default()(needle, haystack) : includes(haystack, needle);
+function match(enableFuzzyMatch, replaceAccents, needle, haystack) {
+  return enableFuzzyMatch ? external_fuzzysearch_default()(needle, haystack) : replaceAccents ? includes(slugify(haystack), slugify(needle)) : includes(haystack, needle);
 }
 
 function getErrorMessage(err) {
@@ -847,6 +876,10 @@ var instanceId = 0;
     inputDebounceDelay: {
       type: Number,
       default: INPUT_DEBOUNCE_DELAY
+    },
+    replaceAccents: {
+      type: Boolean,
+      default: false
     }
   },
   data: function data() {
@@ -1331,11 +1364,11 @@ var instanceId = 0;
       this.traverseAllNodesDFS(function (node) {
         if (_this11.searchNested && splitSearchQuery.length > 1) {
           node.isMatched = splitSearchQuery.every(function (filterValue) {
-            return match(false, filterValue, node.nestedSearchLabel);
+            return match(false, false, filterValue, node.nestedSearchLabel);
           });
         } else {
           node.isMatched = _this11.matchKeys.some(function (matchKey) {
-            return match(!_this11.disableFuzzyMatching, lowerCasedSearchQuery, node.lowerCased[matchKey]);
+            return match(!_this11.disableFuzzyMatching, _this11.replaceAccents, lowerCasedSearchQuery, node.lowerCased[matchKey]);
           });
         }
 
@@ -3889,12 +3922,6 @@ Treeselect_component.options.__file = "src/components/Treeselect.vue"
 var style = __webpack_require__(15);
 
 // CONCATENATED MODULE: ./src/index.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VERSION", function() { return VERSION; });
-/* concated harmony reexport Treeselect */__webpack_require__.d(__webpack_exports__, "Treeselect", function() { return Treeselect; });
-/* concated harmony reexport treeselectMixin */__webpack_require__.d(__webpack_exports__, "treeselectMixin", function() { return treeselectMixin; });
-/* concated harmony reexport LOAD_ROOT_OPTIONS */__webpack_require__.d(__webpack_exports__, "LOAD_ROOT_OPTIONS", function() { return LOAD_ROOT_OPTIONS; });
-/* concated harmony reexport LOAD_CHILDREN_OPTIONS */__webpack_require__.d(__webpack_exports__, "LOAD_CHILDREN_OPTIONS", function() { return LOAD_CHILDREN_OPTIONS; });
-/* concated harmony reexport ASYNC_SEARCH */__webpack_require__.d(__webpack_exports__, "ASYNC_SEARCH", function() { return ASYNC_SEARCH; });
 
 
 
