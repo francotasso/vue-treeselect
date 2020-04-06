@@ -112,61 +112,61 @@ module.exports = require("@babel/runtime/helpers/defineProperty");
 /* 3 */
 /***/ (function(module, exports) {
 
-module.exports = require("fuzzysearch");
+module.exports = require("lodash/noop");
 
 /***/ }),
 /* 4 */
 /***/ (function(module, exports) {
 
-module.exports = require("lodash/noop");
+module.exports = require("lodash/debounce");
 
 /***/ }),
 /* 5 */
 /***/ (function(module, exports) {
 
-module.exports = require("lodash/debounce");
+module.exports = require("watch-size");
 
 /***/ }),
 /* 6 */
 /***/ (function(module, exports) {
 
-module.exports = require("watch-size");
+module.exports = require("is-promise");
 
 /***/ }),
 /* 7 */
 /***/ (function(module, exports) {
 
-module.exports = require("is-promise");
+module.exports = require("lodash/once");
 
 /***/ }),
 /* 8 */
 /***/ (function(module, exports) {
 
-module.exports = require("lodash/once");
+module.exports = require("lodash/identity");
 
 /***/ }),
 /* 9 */
 /***/ (function(module, exports) {
 
-module.exports = require("lodash/identity");
+module.exports = require("lodash/constant");
 
 /***/ }),
 /* 10 */
 /***/ (function(module, exports) {
 
-module.exports = require("lodash/constant");
+module.exports = require("@babel/runtime/helpers/typeof");
 
 /***/ }),
 /* 11 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime/helpers/typeof");
+module.exports = require("lodash/last");
 
 /***/ }),
 /* 12 */
 /***/ (function(module, exports) {
 
-module.exports = require("lodash/last");
+module.exports = require("fuzzysearch");
 
 /***/ }),
 /* 13 */
@@ -214,12 +214,8 @@ var toConsumableArray_default = /*#__PURE__*/__webpack_require__.n(toConsumableA
 var defineProperty_ = __webpack_require__(2);
 var defineProperty_default = /*#__PURE__*/__webpack_require__.n(defineProperty_);
 
-// EXTERNAL MODULE: external "fuzzysearch"
-var external_fuzzysearch_ = __webpack_require__(3);
-var external_fuzzysearch_default = /*#__PURE__*/__webpack_require__.n(external_fuzzysearch_);
-
 // EXTERNAL MODULE: external "lodash/noop"
-var noop_ = __webpack_require__(4);
+var noop_ = __webpack_require__(3);
 var noop_default = /*#__PURE__*/__webpack_require__.n(noop_);
 
 // CONCATENATED MODULE: ./src/utils/noop.js
@@ -261,13 +257,13 @@ function scrollIntoView($scrollingEl, $focusedEl) {
   }
 }
 // EXTERNAL MODULE: external "lodash/debounce"
-var debounce_ = __webpack_require__(5);
+var debounce_ = __webpack_require__(4);
 var debounce_default = /*#__PURE__*/__webpack_require__.n(debounce_);
 
 // CONCATENATED MODULE: ./src/utils/debounce.js
 
 // EXTERNAL MODULE: external "watch-size"
-var external_watch_size_ = __webpack_require__(6);
+var external_watch_size_ = __webpack_require__(5);
 var external_watch_size_default = /*#__PURE__*/__webpack_require__.n(external_watch_size_);
 
 // CONCATENATED MODULE: ./src/utils/removeFromArray.js
@@ -392,25 +388,25 @@ function isNaN_isNaN(x) {
   return x !== x;
 }
 // EXTERNAL MODULE: external "is-promise"
-var external_is_promise_ = __webpack_require__(7);
+var external_is_promise_ = __webpack_require__(6);
 var external_is_promise_default = /*#__PURE__*/__webpack_require__.n(external_is_promise_);
 
 // CONCATENATED MODULE: ./src/utils/isPromise.js
 
 // EXTERNAL MODULE: external "lodash/once"
-var once_ = __webpack_require__(8);
+var once_ = __webpack_require__(7);
 var once_default = /*#__PURE__*/__webpack_require__.n(once_);
 
 // CONCATENATED MODULE: ./src/utils/once.js
 
 // EXTERNAL MODULE: external "lodash/identity"
-var identity_ = __webpack_require__(9);
+var identity_ = __webpack_require__(8);
 var identity_default = /*#__PURE__*/__webpack_require__.n(identity_);
 
 // CONCATENATED MODULE: ./src/utils/identity.js
 
 // EXTERNAL MODULE: external "lodash/constant"
-var constant_ = __webpack_require__(10);
+var constant_ = __webpack_require__(9);
 var constant_default = /*#__PURE__*/__webpack_require__.n(constant_);
 
 // CONCATENATED MODULE: ./src/utils/constant.js
@@ -420,7 +416,7 @@ var createMap = function createMap() {
   return Object.create(null);
 };
 // EXTERNAL MODULE: external "@babel/runtime/helpers/typeof"
-var typeof_ = __webpack_require__(11);
+var typeof_ = __webpack_require__(10);
 var typeof_default = /*#__PURE__*/__webpack_require__.n(typeof_);
 
 // CONCATENATED MODULE: ./src/utils/deepExtend.js
@@ -452,7 +448,7 @@ function deepExtend(target, source) {
   return target;
 }
 // EXTERNAL MODULE: external "lodash/last"
-var last_ = __webpack_require__(12);
+var last_ = __webpack_require__(11);
 var last_default = /*#__PURE__*/__webpack_require__.n(last_);
 
 // CONCATENATED MODULE: ./src/utils/last.js
@@ -533,6 +529,10 @@ var KEY_CODES = {
 var INPUT_DEBOUNCE_DELAY = process.env.NODE_ENV === 'testing' ? 10 : 200;
 var MIN_INPUT_WIDTH = 5;
 var MENU_BUFFER = 40;
+// EXTERNAL MODULE: external "fuzzysearch"
+var external_fuzzysearch_ = __webpack_require__(12);
+var external_fuzzysearch_default = /*#__PURE__*/__webpack_require__.n(external_fuzzysearch_);
+
 // CONCATENATED MODULE: ./src/mixins/treeselectMixin.js
 
 
@@ -571,11 +571,11 @@ function createAsyncOptionsStates() {
 
 function slugify(str) {
   var map = {
-    'a': 'á|à|ã|â|À|Á|Ã|Â',
-    'e': 'é|è|ê|É|È|Ê',
-    'i': 'í|ì|î|Í|Ì|Î',
-    'o': 'ó|ò|ô|õ|Ó|Ò|Ô|Õ',
-    'u': 'ú|ù|û|ü|Ú|Ù|Û|Ü'
+    a: 'á|à|ã|â|ä|A|À|Á|Ã|Â|Ä',
+    e: 'é|è|ê|ë|E|É|È|Ê|Ë',
+    i: 'í|ì|î|ï|I|Í|Ì|Î|Ï',
+    o: 'ó|ò|ô|õ|ö|O|Ó|Ò|Ô|Õ|Ö',
+    u: 'ú|ù|û|ü|U|Ú|Ù|Û|Ü'
   };
   str = str.toLowerCase();
 
@@ -583,11 +583,8 @@ function slugify(str) {
     str = str.replace(new RegExp(map[pattern], 'g'), pattern);
   }
 
-  ;
   return str;
 }
-
-;
 
 function stringifyOptionPropValue(value) {
   if (typeof value === 'string') return value;

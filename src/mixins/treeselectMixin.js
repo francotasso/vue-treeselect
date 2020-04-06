@@ -1,5 +1,3 @@
-import fuzzysearch from 'fuzzysearch'
-
 import {
   warning,
   onLeftClick, scrollIntoView,
@@ -16,6 +14,7 @@ import {
   ALL_CHILDREN, ALL_DESCENDANTS, LEAF_CHILDREN, LEAF_DESCENDANTS,
   ORDER_SELECTED, LEVEL, INDEX, INPUT_DEBOUNCE_DELAY,
 } from '../constants'
+import fuzzysearch from 'fuzzysearch'
 
 function sortValueByIndex(a, b) {
   let i = 0
@@ -41,26 +40,22 @@ function createAsyncOptionsStates() {
   }
 }
 
-function slugify (str) {
-  var map = {
-    // '-' : ' ',
-    // '-' : '_',
-    'a' : 'á|à|ã|â|À|Á|Ã|Â',
-    'e' : 'é|è|ê|É|È|Ê',
-    'i' : 'í|ì|î|Í|Ì|Î',
-    'o' : 'ó|ò|ô|õ|Ó|Ò|Ô|Õ',
-    'u' : 'ú|ù|û|ü|Ú|Ù|Û|Ü',
-    // 'c' : 'ç|Ç',
-    // 'n' : 'ñ|Ñ'
-  };
-  
-  str = str.toLowerCase();
-  
-  for (var pattern in map) {
-    str = str.replace(new RegExp(map[pattern], 'g'), pattern);
-  };
-  return str;
-};
+function slugify(str) {
+  const map = {
+    a: 'á|à|ã|â|ä|A|À|Á|Ã|Â|Ä',
+    e: 'é|è|ê|ë|E|É|È|Ê|Ë',
+    i: 'í|ì|î|ï|I|Í|Ì|Î|Ï',
+    o: 'ó|ò|ô|õ|ö|O|Ó|Ò|Ô|Õ|Ö',
+    u: 'ú|ù|û|ü|U|Ú|Ù|Û|Ü',
+  }
+
+  str = str.toLowerCase()
+
+  for (const pattern in map) {
+    str = str.replace(new RegExp(map[pattern], 'g'), pattern)
+  }
+  return str
+}
 
 function stringifyOptionPropValue(value) {
   if (typeof value === 'string') return value

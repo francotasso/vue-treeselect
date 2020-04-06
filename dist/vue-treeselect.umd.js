@@ -276,37 +276,6 @@ module.exports = _defineProperty;
 
 /***/ }),
 /* 11 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-function fuzzysearch (needle, haystack) {
-  var tlen = haystack.length;
-  var qlen = needle.length;
-  if (qlen > tlen) {
-    return false;
-  }
-  if (qlen === tlen) {
-    return needle === haystack;
-  }
-  outer: for (var i = 0, j = 0; i < qlen; i++) {
-    var nch = needle.charCodeAt(i);
-    while (j < tlen) {
-      if (haystack.charCodeAt(j++) === nch) {
-        continue outer;
-      }
-    }
-    return false;
-  }
-  return true;
-}
-
-module.exports = fuzzysearch;
-
-
-/***/ }),
-/* 12 */
 /***/ (function(module, exports) {
 
 /**
@@ -329,12 +298,12 @@ module.exports = noop;
 
 
 /***/ }),
-/* 13 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(14),
-    now = __webpack_require__(15),
-    toNumber = __webpack_require__(19);
+var isObject = __webpack_require__(13),
+    now = __webpack_require__(14),
+    toNumber = __webpack_require__(18);
 
 /** Error message constants. */
 var FUNC_ERROR_TEXT = 'Expected a function';
@@ -526,7 +495,7 @@ module.exports = debounce;
 
 
 /***/ }),
-/* 14 */
+/* 13 */
 /***/ (function(module, exports) {
 
 /**
@@ -563,10 +532,10 @@ module.exports = isObject;
 
 
 /***/ }),
-/* 15 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var root = __webpack_require__(16);
+var root = __webpack_require__(15);
 
 /**
  * Gets the timestamp of the number of milliseconds that have elapsed since
@@ -592,10 +561,10 @@ module.exports = now;
 
 
 /***/ }),
-/* 16 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var freeGlobal = __webpack_require__(17);
+var freeGlobal = __webpack_require__(16);
 
 /** Detect free variable `self`. */
 var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
@@ -607,7 +576,7 @@ module.exports = root;
 
 
 /***/ }),
-/* 17 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/** Detect free variable `global` from Node.js. */
@@ -615,10 +584,10 @@ var freeGlobal = typeof global == 'object' && global && global.Object === Object
 
 module.exports = freeGlobal;
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(18)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(17)))
 
 /***/ }),
-/* 18 */
+/* 17 */
 /***/ (function(module, exports) {
 
 var g;
@@ -644,11 +613,11 @@ module.exports = g;
 
 
 /***/ }),
-/* 19 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(14),
-    isSymbol = __webpack_require__(20);
+var isObject = __webpack_require__(13),
+    isSymbol = __webpack_require__(19);
 
 /** Used as references for various `Number` constants. */
 var NAN = 0 / 0;
@@ -716,11 +685,11 @@ module.exports = toNumber;
 
 
 /***/ }),
-/* 20 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(21),
-    isObjectLike = __webpack_require__(25);
+var baseGetTag = __webpack_require__(20),
+    isObjectLike = __webpack_require__(24);
 
 /** `Object#toString` result references. */
 var symbolTag = '[object Symbol]';
@@ -751,12 +720,12 @@ module.exports = isSymbol;
 
 
 /***/ }),
-/* 21 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(22),
-    getRawTag = __webpack_require__(23),
-    objectToString = __webpack_require__(24);
+var Symbol = __webpack_require__(21),
+    getRawTag = __webpack_require__(22),
+    objectToString = __webpack_require__(23);
 
 /** `Object#toString` result references. */
 var nullTag = '[object Null]',
@@ -785,10 +754,10 @@ module.exports = baseGetTag;
 
 
 /***/ }),
-/* 22 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var root = __webpack_require__(16);
+var root = __webpack_require__(15);
 
 /** Built-in value references. */
 var Symbol = root.Symbol;
@@ -797,10 +766,10 @@ module.exports = Symbol;
 
 
 /***/ }),
-/* 23 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(22);
+var Symbol = __webpack_require__(21);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -849,7 +818,7 @@ module.exports = getRawTag;
 
 
 /***/ }),
-/* 24 */
+/* 23 */
 /***/ (function(module, exports) {
 
 /** Used for built-in method references. */
@@ -877,7 +846,7 @@ module.exports = objectToString;
 
 
 /***/ }),
-/* 25 */
+/* 24 */
 /***/ (function(module, exports) {
 
 /**
@@ -912,7 +881,7 @@ module.exports = isObjectLike;
 
 
 /***/ }),
-/* 26 */
+/* 25 */
 /***/ (function(module, exports) {
 
 module.exports = isPromise;
@@ -923,10 +892,10 @@ function isPromise(obj) {
 
 
 /***/ }),
-/* 27 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var before = __webpack_require__(28);
+var before = __webpack_require__(27);
 
 /**
  * Creates a function that is restricted to invoking `func` once. Repeat calls
@@ -954,10 +923,10 @@ module.exports = once;
 
 
 /***/ }),
-/* 28 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var toInteger = __webpack_require__(29);
+var toInteger = __webpack_require__(28);
 
 /** Error message constants. */
 var FUNC_ERROR_TEXT = 'Expected a function';
@@ -1000,10 +969,10 @@ module.exports = before;
 
 
 /***/ }),
-/* 29 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var toFinite = __webpack_require__(30);
+var toFinite = __webpack_require__(29);
 
 /**
  * Converts `value` to an integer.
@@ -1042,10 +1011,10 @@ module.exports = toInteger;
 
 
 /***/ }),
-/* 30 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var toNumber = __webpack_require__(19);
+var toNumber = __webpack_require__(18);
 
 /** Used as references for various `Number` constants. */
 var INFINITY = 1 / 0,
@@ -1090,7 +1059,7 @@ module.exports = toFinite;
 
 
 /***/ }),
-/* 31 */
+/* 30 */
 /***/ (function(module, exports) {
 
 /**
@@ -1117,7 +1086,7 @@ module.exports = identity;
 
 
 /***/ }),
-/* 32 */
+/* 31 */
 /***/ (function(module, exports) {
 
 /**
@@ -1149,7 +1118,7 @@ module.exports = constant;
 
 
 /***/ }),
-/* 33 */
+/* 32 */
 /***/ (function(module, exports) {
 
 function _typeof(obj) {
@@ -1171,7 +1140,7 @@ function _typeof(obj) {
 module.exports = _typeof;
 
 /***/ }),
-/* 34 */
+/* 33 */
 /***/ (function(module, exports) {
 
 /**
@@ -1194,6 +1163,37 @@ function last(array) {
 }
 
 module.exports = last;
+
+
+/***/ }),
+/* 34 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function fuzzysearch (needle, haystack) {
+  var tlen = haystack.length;
+  var qlen = needle.length;
+  if (qlen > tlen) {
+    return false;
+  }
+  if (qlen === tlen) {
+    return needle === haystack;
+  }
+  outer: for (var i = 0, j = 0; i < qlen; i++) {
+    var nch = needle.charCodeAt(i);
+    while (j < tlen) {
+      if (haystack.charCodeAt(j++) === nch) {
+        continue outer;
+      }
+    }
+    return false;
+  }
+  return true;
+}
+
+module.exports = fuzzysearch;
 
 
 /***/ }),
@@ -1292,12 +1292,8 @@ var toConsumableArray_default = /*#__PURE__*/__webpack_require__.n(toConsumableA
 var defineProperty = __webpack_require__(10);
 var defineProperty_default = /*#__PURE__*/__webpack_require__.n(defineProperty);
 
-// EXTERNAL MODULE: ./node_modules/fuzzysearch/index.js
-var fuzzysearch = __webpack_require__(11);
-var fuzzysearch_default = /*#__PURE__*/__webpack_require__.n(fuzzysearch);
-
 // EXTERNAL MODULE: ./node_modules/lodash/noop.js
-var noop = __webpack_require__(12);
+var noop = __webpack_require__(11);
 
 // CONCATENATED MODULE: ./src/utils/noop.js
 
@@ -1338,7 +1334,7 @@ function scrollIntoView($scrollingEl, $focusedEl) {
   }
 }
 // EXTERNAL MODULE: ./node_modules/lodash/debounce.js
-var debounce = __webpack_require__(13);
+var debounce = __webpack_require__(12);
 var debounce_default = /*#__PURE__*/__webpack_require__.n(debounce);
 
 // CONCATENATED MODULE: ./src/utils/debounce.js
@@ -1524,25 +1520,25 @@ function isNaN_isNaN(x) {
   return x !== x;
 }
 // EXTERNAL MODULE: ./node_modules/is-promise/index.js
-var is_promise = __webpack_require__(26);
+var is_promise = __webpack_require__(25);
 var is_promise_default = /*#__PURE__*/__webpack_require__.n(is_promise);
 
 // CONCATENATED MODULE: ./src/utils/isPromise.js
 
 // EXTERNAL MODULE: ./node_modules/lodash/once.js
-var once = __webpack_require__(27);
+var once = __webpack_require__(26);
 var once_default = /*#__PURE__*/__webpack_require__.n(once);
 
 // CONCATENATED MODULE: ./src/utils/once.js
 
 // EXTERNAL MODULE: ./node_modules/lodash/identity.js
-var identity = __webpack_require__(31);
+var identity = __webpack_require__(30);
 var identity_default = /*#__PURE__*/__webpack_require__.n(identity);
 
 // CONCATENATED MODULE: ./src/utils/identity.js
 
 // EXTERNAL MODULE: ./node_modules/lodash/constant.js
-var constant = __webpack_require__(32);
+var constant = __webpack_require__(31);
 var constant_default = /*#__PURE__*/__webpack_require__.n(constant);
 
 // CONCATENATED MODULE: ./src/utils/constant.js
@@ -1552,7 +1548,7 @@ var createMap = function createMap() {
   return Object.create(null);
 };
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/typeof.js
-var helpers_typeof = __webpack_require__(33);
+var helpers_typeof = __webpack_require__(32);
 var typeof_default = /*#__PURE__*/__webpack_require__.n(helpers_typeof);
 
 // CONCATENATED MODULE: ./src/utils/deepExtend.js
@@ -1584,7 +1580,7 @@ function deepExtend(target, source) {
   return target;
 }
 // EXTERNAL MODULE: ./node_modules/lodash/last.js
-var lodash_last = __webpack_require__(34);
+var lodash_last = __webpack_require__(33);
 var last_default = /*#__PURE__*/__webpack_require__.n(lodash_last);
 
 // CONCATENATED MODULE: ./src/utils/last.js
@@ -1665,6 +1661,10 @@ var KEY_CODES = {
 var INPUT_DEBOUNCE_DELAY =  false ? undefined : 200;
 var MIN_INPUT_WIDTH = 5;
 var MENU_BUFFER = 40;
+// EXTERNAL MODULE: ./node_modules/fuzzysearch/index.js
+var fuzzysearch = __webpack_require__(34);
+var fuzzysearch_default = /*#__PURE__*/__webpack_require__.n(fuzzysearch);
+
 // CONCATENATED MODULE: ./src/mixins/treeselectMixin.js
 
 
@@ -1703,11 +1703,11 @@ function createAsyncOptionsStates() {
 
 function slugify(str) {
   var map = {
-    'a': 'á|à|ã|â|À|Á|Ã|Â',
-    'e': 'é|è|ê|É|È|Ê',
-    'i': 'í|ì|î|Í|Ì|Î',
-    'o': 'ó|ò|ô|õ|Ó|Ò|Ô|Õ',
-    'u': 'ú|ù|û|ü|Ú|Ù|Û|Ü'
+    a: 'á|à|ã|â|ä|A|À|Á|Ã|Â|Ä',
+    e: 'é|è|ê|ë|E|É|È|Ê|Ë',
+    i: 'í|ì|î|ï|I|Í|Ì|Î|Ï',
+    o: 'ó|ò|ô|õ|ö|O|Ó|Ò|Ô|Õ|Ö',
+    u: 'ú|ù|û|ü|U|Ú|Ù|Û|Ü'
   };
   str = str.toLowerCase();
 
@@ -1715,11 +1715,8 @@ function slugify(str) {
     str = str.replace(new RegExp(map[pattern], 'g'), pattern);
   }
 
-  ;
   return str;
 }
-
-;
 
 function stringifyOptionPropValue(value) {
   if (typeof value === 'string') return value;
