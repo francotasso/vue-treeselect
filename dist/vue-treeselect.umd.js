@@ -4456,8 +4456,14 @@ var Option = {
         name: 'vue-treeselect__list--transition'
       }
     };
+    var ariaSelected = node.instance.selectedNodes.length ? 'true' : 'false';
     return h("div", {
-      "class": listItemClass
+      "class": listItemClass,
+      attrs: {
+        role: "option",
+        tabindex: "0",
+        "aria-selected": ariaSelected
+      }
     }, [this.renderOption(), node.isBranch && h("transition", transitionProps, [this.renderSubOptionsList()])]);
   }
 };
@@ -4609,7 +4615,11 @@ var directionMap = {
       var h = this.$createElement;
       var instance = this.instance;
       return h("div", {
-        "class": "vue-treeselect__list"
+        "class": "vue-treeselect__list",
+        attrs: {
+          role: "listbox",
+          tabindex: "-1"
+        }
       }, [instance.forest.normalizedOptions.map(function (rootNode) {
         return h(components_Option, {
           attrs: {
