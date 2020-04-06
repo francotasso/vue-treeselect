@@ -3311,6 +3311,8 @@ var Option = {
     })
   },
   render: function render() {
+    var _this = this;
+
     var h = arguments[0];
     var node = this.node;
     var indentLevel = this.instance.shouldFlattenOptions ? 0 : node.level;
@@ -3324,7 +3326,12 @@ var Option = {
         name: 'vue-treeselect__list--transition'
       }
     };
-    var ariaSelected = node.instance.selectedNodes.length ? 'true' : 'false';
+    var isSelected = false;
+    this.instance.selectedNodes.some(function (e) {
+      return e.id === _this.node.id;
+    });
+    isSelected = "".concat(isSelected);
+    console.log();
     return h("div", {
       "class": listItemClass,
       attrs: {
