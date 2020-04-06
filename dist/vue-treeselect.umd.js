@@ -4463,13 +4463,12 @@ var Option = {
       return e.id === _this.node.id;
     });
     isSelected = "".concat(isSelected);
-    console.log();
     return h("div", {
       "class": listItemClass,
       attrs: {
         role: "option",
         tabindex: "0",
-        "aria-selected": ariaSelected
+        "aria-selected": isSelected
       }
     }, [this.renderOption(), node.isBranch && h("transition", transitionProps, [this.renderSubOptionsList()])]);
   }
