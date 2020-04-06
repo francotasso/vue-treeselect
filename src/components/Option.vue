@@ -282,8 +282,10 @@
         },
       }
 
-      const ariaSelected = this.instance.selectedNodes.length ? 'true' : 'false'
-
+      let isSelected = false
+      this.instance.selectedNodes.some(e => e.id === this.node.id)
+      isSelected = `${isSelected}`
+      console.log()
       return (
         <div
           class={listItemClass}
