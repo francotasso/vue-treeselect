@@ -3324,7 +3324,7 @@ var Option = {
         name: 'vue-treeselect__list--transition'
       }
     };
-    var ariaSelected = node.instance.selectedNodes.length ? 'true' : 'false';
+    var ariaSelected = this.instance.selectedNodes.length ? 'true' : 'false';
     return h("div", {
       "class": listItemClass,
       attrs: {

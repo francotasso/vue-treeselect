@@ -282,7 +282,7 @@
         },
       }
 
-      const ariaSelected = node.instance.selectedNodes.length ? 'true' : 'false'
+      const ariaSelected = this.instance.selectedNodes.length ? 'true' : 'false'
 
       return (
         <div
