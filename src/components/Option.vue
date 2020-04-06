@@ -282,8 +282,14 @@
         },
       }
 
+      const ariaSelected = node.instance.selectedNodes.length ? 'true' : 'false'
+
       return (
-        <div class={listItemClass}>
+        <div
+          class={listItemClass}
+          role="option"
+          tabindex="0"
+          aria-selected={ariaSelected}>
           {this.renderOption()}
           {node.isBranch && (
             <transition {...transitionProps}>
