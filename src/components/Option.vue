@@ -285,13 +285,13 @@
       let isSelected = false
       this.instance.selectedNodes.some(e => e.id === this.node.id)
       isSelected = `${isSelected}`
-      console.log()
+
       return (
         <div
           class={listItemClass}
           role="option"
           tabindex="0"
-          aria-selected={ariaSelected}>
+          aria-selected={isSelected}>
           {this.renderOption()}
           {node.isBranch && (
             <transition {...transitionProps}>
