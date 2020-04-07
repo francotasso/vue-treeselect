@@ -42,6 +42,14 @@
           'vue-treeselect__option--matched': instance.localSearch.active && node.isMatched,
           'vue-treeselect__option--hide': !this.shouldShow,
         }
+        const props = {}
+
+        deepExtend(props, {
+          on: {
+            keydown: this.onEventListenerOption,
+          },
+          ref: 'optionArrow',
+        })
 
         return (
           <div class={optionClass} onMouseenter={this.handleMouseEnterOption} data-id={node.id}>
@@ -60,7 +68,7 @@
         if (!this.shouldExpand) return null
 
         return (
-          <div id={`${id}-submenu`} class="vue-treeselect__list" role="region" tabindex="-1" >
+          <div id={`${id}-submenu`} class="vue-treeselect__list" role="list" tabindex="-1" >
             {this.renderSubOptions()}
             {this.renderNoChildrenTip()}
             {this.renderLoadingChildrenTip()}
@@ -69,8 +77,20 @@
         )
       },
 
-      onEventListeners($event) {
-        if ($event.type === 'keydown' && $event.keyCode === 13) {
+      onEventListenerOption(evt) {
+        if (evt.type === 'keydown' && evt.keyCode === 13) {
+          const { instance, node } = this
+
+          // Equivalent to `self` modifier.
+          // istanbul ignore next
+          if (evt.target !== evt.currentTarget) return
+
+          instance.setCurrentHighlightedOption(node, false)
+        }
+      },
+
+      onEventListeners(evt) {
+        if (evt.type === 'keydown' && evt.keyCode === 13) {
           const { instance, node } = this
           instance.toggleExpanded(node)
         }
@@ -200,7 +220,7 @@
         })
 
         return (
-          <label class={labelClassName}>
+          <label class={labelClassName} tabindex="0" aria-label={node.label}>
             {node.label}
             {shouldShowCount && (
               <span class={countClassName}>({count})</span>
@@ -305,8 +325,9 @@
 
       return (
         <div
+          id={`${node.id}-${node.index.join('-')}`}
           class={listItemClass}
-          role="option"
+          role="listitem"
           tabindex="0"
           aria-selected={isSelected}>
           {this.renderOption(this.node.id)}
