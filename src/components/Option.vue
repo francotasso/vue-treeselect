@@ -52,7 +52,7 @@
         })
 
         return (
-          <div class={optionClass} onMouseenter={this.handleMouseEnterOption} data-id={node.id}>
+          <div class={optionClass} {...props} onMouseenter={this.handleMouseEnterOption} data-id={node.id}>
             {this.renderArrow()}
             {this.renderLabelContainer([
               this.renderCheckboxContainer([
@@ -329,6 +329,7 @@
           class={listItemClass}
           role="listitem"
           tabindex="0"
+          aria-label={node.label}
           aria-selected={isSelected}>
           {this.renderOption(this.node.id)}
           {node.isBranch && (

@@ -3074,6 +3074,7 @@ Tip_component.options.__file = "src/components/Tip.vue"
 
 
 
+
 var arrowPlaceholder, checkMark, minusMark;
 var Option = {
   name: 'vue-treeselect--option',
@@ -3116,15 +3117,16 @@ var Option = {
         },
         ref: 'optionArrow'
       });
-      return h("div", {
-        "class": optionClass,
+      return h("div", external_babel_helper_vue_jsx_merge_props_default()([{
+        "class": optionClass
+      }, props, {
         on: {
           "mouseenter": this.handleMouseEnterOption
         },
         attrs: {
           "data-id": node.id
         }
-      }, [this.renderArrow(), this.renderLabelContainer([this.renderCheckboxContainer([this.renderCheckbox()]), this.renderLabel()])]);
+      }]), [this.renderArrow(), this.renderLabelContainer([this.renderCheckboxContainer([this.renderCheckbox()]), this.renderLabel()])]);
     },
     renderSubOptionsList: function renderSubOptionsList(id) {
       var h = this.$createElement;
@@ -3386,6 +3388,7 @@ var Option = {
         id: "".concat(node.id, "-").concat(node.index.join('-')),
         role: "listitem",
         tabindex: "0",
+        "aria-label": node.label,
         "aria-selected": isSelected
       },
       "class": listItemClass
