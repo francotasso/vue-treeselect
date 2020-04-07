@@ -151,7 +151,7 @@
         const { instance } = this
 
         return (
-          <div class="vue-treeselect__list" role="listbox" tabindex="-1">
+          <div class="vue-treeselect__list" role="list" tabindex="-1">
             {instance.forest.normalizedOptions.map(rootNode => (
               <Option node={rootNode} key={rootNode.id} />
             ))}
