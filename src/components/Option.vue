@@ -70,7 +70,10 @@
       },
 
       onEventListeners($event) {
-        console.log($event)
+        if ($event.type === 'keydown' && $event.keyCode === 13) {
+          const { instance, node } = this
+          instance.toggleExpanded(node)
+        }
       },
 
       renderArrow() {

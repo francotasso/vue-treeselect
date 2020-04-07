@@ -3134,7 +3134,11 @@ var Option = {
       }, [this.renderSubOptions(), this.renderNoChildrenTip(), this.renderLoadingChildrenTip(), this.renderLoadingChildrenErrorTip()]);
     },
     onEventListeners: function onEventListeners($event) {
-      console.log($event);
+      if ($event.type === 'keydown' && $event.keyCode === 13) {
+        var instance = this.instance,
+            node = this.node;
+        instance.toggleExpanded(node);
+      }
     },
     renderArrow: function renderArrow() {
       var h = this.$createElement;
