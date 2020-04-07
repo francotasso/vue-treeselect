@@ -3075,6 +3075,7 @@ Tip_component.options.__file = "src/components/Tip.vue"
 
 
 
+
 var arrowPlaceholder, checkMark, minusMark;
 var Option = {
   name: 'vue-treeselect--option',
@@ -3113,8 +3114,7 @@ var Option = {
       return h("div", {
         "class": optionClass,
         on: {
-          "mouseenter": this.handleMouseEnterOption,
-          "keypress__enter": this.handleMouseEnterOption
+          "mouseenter": this.handleMouseEnterOption
         },
         attrs: {
           "data-id": node.id
@@ -3133,6 +3133,9 @@ var Option = {
         "class": "vue-treeselect__list"
       }, [this.renderSubOptions(), this.renderNoChildrenTip(), this.renderLoadingChildrenTip(), this.renderLoadingChildrenErrorTip()]);
     },
+    onEventListeners: function onEventListeners($event) {
+      console.log($event);
+    },
     renderArrow: function renderArrow() {
       var h = this.$createElement;
       var instance = this.instance,
@@ -3150,18 +3153,28 @@ var Option = {
           'vue-treeselect__option-arrow': true,
           'vue-treeselect__option-arrow--rotated': this.shouldExpand
         };
-        return h("div", {
+        var styleCaret = {
+          appearance: 'caret'
+        };
+        var attributes = {
+          on: this.onEventListeners
+        };
+        return h("div", external_babel_helper_vue_jsx_merge_props_default()([{
           "class": "vue-treeselect__option-arrow-container",
+          style: styleCaret,
           attrs: {
-            tabindex: '0',
-            "aria-controls": "".concat(this.instance.$attrs.id, "-arrow"),
-            "aria-expanded": node.isExpanded ? 'true' : 'false',
-            "aria-label": "Click menu"
+            tabindex: '0'
           },
           on: {
             "mousedown": this.handleMouseDownOnArrow
           }
-        }, [h("transition", transitionProps, [h(Arrow, {
+        }, attributes, {
+          attrs: {
+            "aria-controls": "".concat(this.instance.$attrs.id, "-arrow"),
+            "aria-expanded": node.isExpanded ? 'true' : 'false',
+            "aria-label": "Click menu"
+          }
+        }]), [h("transition", transitionProps, [h(Arrow, {
           "class": arrowClass
         })])]);
       }
