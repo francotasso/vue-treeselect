@@ -3542,7 +3542,7 @@ var directionMap = {
       return h("div", {
         "class": "vue-treeselect__list",
         attrs: {
-          role: "listbox",
+          role: "list",
           tabindex: "-1"
         }
       }, [instance.forest.normalizedOptions.map(function (rootNode) {
