@@ -44,7 +44,7 @@
         }
 
         return (
-          <div class={optionClass} onMouseenter={this.handleMouseEnterOption} data-id={node.id} onKeypress__enter={this.handleMouseEnterOption}>
+          <div class={optionClass} onMouseenter={this.handleMouseEnterOption} data-id={node.id}>
             {this.renderArrow()}
             {this.renderLabelContainer([
               this.renderCheckboxContainer([
@@ -69,6 +69,10 @@
         )
       },
 
+      onEventListeners($event) {
+        console.log($event)
+      },
+
       renderArrow() {
         const { instance, node } = this
 
@@ -86,8 +90,11 @@
             'vue-treeselect__option-arrow--rotated': this.shouldExpand,
           }
 
+          const styleCaret = { appearance: 'caret' }
+          const attributes = { on: this.onEventListeners }
+
           return (
-            <div class="vue-treeselect__option-arrow-container" tabindex={'0'} onMousedown={this.handleMouseDownOnArrow} aria-controls={`${this.instance.$attrs.id}-arrow`} aria-expanded={ node.isExpanded ? 'true' : 'false'} aria-label="Click menu">
+            <div class="vue-treeselect__option-arrow-container" style={styleCaret} tabindex={'0'} onMousedown={this.handleMouseDownOnArrow} {...attributes} aria-controls={`${this.instance.$attrs.id}-arrow`} aria-expanded={ node.isExpanded ? 'true' : 'false'} aria-label="Click menu">
               <transition {...transitionProps}>
                 <ArrowIcon class={arrowClass} />
               </transition>
