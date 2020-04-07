@@ -225,7 +225,7 @@
           deepExtend(props, {
             on: {
               focus: this.onFocus,
-              blur: this.onBlur,
+              // blur: this.onBlur,
               keydown: this.onKeyDown,
             },
             ref: 'input',
@@ -249,7 +249,7 @@
 
       renderInput() {
         const { instance } = this
-
+        // onBlur={this.onBlur}
         return (
           <input ref="input"
             class="vue-treeselect__input"
@@ -261,7 +261,6 @@
             style={this.inputStyle}
             onFocus={this.onFocus}
             onInput={this.onInput}
-            onBlur={this.onBlur}
             onKeydown={this.onKeyDown}
             onMousedown={this.onMouseDown}
           />

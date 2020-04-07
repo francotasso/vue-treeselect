@@ -2434,7 +2434,6 @@ var keysThatRequireMenuBeingOpen = [KEY_CODES.ENTER, KEY_CODES.END, KEY_CODES.HO
         deepExtend(props, {
           on: {
             focus: this.onFocus,
-            blur: this.onBlur,
             keydown: this.onKeyDown
           },
           ref: 'input'
@@ -2472,7 +2471,6 @@ var keysThatRequireMenuBeingOpen = [KEY_CODES.ENTER, KEY_CODES.END, KEY_CODES.HO
         on: {
           "focus": this.onFocus,
           "input": this.onInput,
-          "blur": this.onBlur,
           "keydown": this.onKeyDown,
           "mousedown": this.onMouseDown
         }
