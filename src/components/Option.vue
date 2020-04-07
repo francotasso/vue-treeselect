@@ -32,7 +32,7 @@
     },
 
     methods: {
-      renderOption() {
+      renderOption(idParent) {
         const { instance, node } = this
         const optionClass = {
           'vue-treeselect__option': true,
@@ -44,7 +44,7 @@
         }
 
         return (
-          <div class={optionClass} onMouseenter={this.handleMouseEnterOption} data-id={node.id}>
+          <div class={optionClass} onMouseenter={this.handleMouseEnterOption} data-id={node.id} onKeypress__enter={this.handleMouseEnterOption}>
             {this.renderArrow()}
             {this.renderLabelContainer([
               this.renderCheckboxContainer([
@@ -56,11 +56,11 @@
         )
       },
 
-      renderSubOptionsList() {
+      renderSubOptionsList(id) {
         if (!this.shouldExpand) return null
 
         return (
-          <div class="vue-treeselect__list">
+          <div id={`${id}-submenu`} class="vue-treeselect__list" role="region" tabindex="-1" >
             {this.renderSubOptions()}
             {this.renderNoChildrenTip()}
             {this.renderLoadingChildrenTip()}
@@ -87,7 +87,7 @@
           }
 
           return (
-            <div class="vue-treeselect__option-arrow-container" onMousedown={this.handleMouseDownOnArrow}>
+            <div class="vue-treeselect__option-arrow-container" tabindex={'0'} onMousedown={this.handleMouseDownOnArrow} aria-controls={`${this.instance.$attrs.id}-arrow`} aria-expanded={ node.isExpanded ? 'true' : 'false'} aria-label="Click menu">
               <transition {...transitionProps}>
                 <ArrowIcon class={arrowClass} />
               </transition>
@@ -283,8 +283,7 @@
       }
 
       let isSelected = false
-      this.instance.selectedNodes.some(e => e.id === this.node.id)
-      isSelected = `${isSelected}`
+      isSelected = `${this.instance.selectedNodes.some(e => e.id === this.node.id)}`
 
       return (
         <div
@@ -292,10 +291,10 @@
           role="option"
           tabindex="0"
           aria-selected={isSelected}>
-          {this.renderOption()}
+          {this.renderOption(this.node.id)}
           {node.isBranch && (
             <transition {...transitionProps}>
-              {this.renderSubOptionsList()}
+              {this.renderSubOptionsList(this.node.id)}
             </transition>
           )}
         </div>
