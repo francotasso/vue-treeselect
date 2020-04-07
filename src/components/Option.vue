@@ -125,11 +125,11 @@
           })
 
           return (
-            <div class="vue-treeselect__option-arrow-container" style={styleCaret} tabindex={'0'} onMousedown={this.handleMouseDownOnArrow} {...props} aria-controls={`${this.instance.$attrs.id}-arrow`} aria-expanded={ node.isExpanded ? 'true' : 'false'} aria-label="Click menu">
+            <button type="button" class="vue-treeselect__option-arrow-container bg-transparent border-0" style={styleCaret} tabindex={'0'} onMousedown={this.handleMouseDownOnArrow} {...props} aria-controls={`${this.instance.$attrs.id}-arrow`} aria-expanded={ node.isExpanded ? 'true' : 'false'} aria-label="Click menu">
               <transition {...transitionProps}>
                 <ArrowIcon class={arrowClass} />
               </transition>
-            </div>
+            </button>
           )
         }
 

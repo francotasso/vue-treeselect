@@ -3180,12 +3180,13 @@ var Option = {
           },
           ref: 'optionArrow'
         });
-        return h("div", external_babel_helper_vue_jsx_merge_props_default()([{
-          "class": "vue-treeselect__option-arrow-container",
-          style: styleCaret,
+        return h("button", external_babel_helper_vue_jsx_merge_props_default()([{
           attrs: {
+            type: "button",
             tabindex: '0'
           },
+          "class": "vue-treeselect__option-arrow-container bg-transparent border-0",
+          style: styleCaret,
           on: {
             "mousedown": this.handleMouseDownOnArrow
           }
