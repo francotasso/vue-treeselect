@@ -3098,7 +3098,7 @@ var Option = {
     }
   },
   methods: {
-    renderOption: function renderOption() {
+    renderOption: function renderOption(idParent) {
       var h = this.$createElement;
       var instance = this.instance,
           node = this.node;
@@ -3113,17 +3113,23 @@ var Option = {
       return h("div", {
         "class": optionClass,
         on: {
-          "mouseenter": this.handleMouseEnterOption
+          "mouseenter": this.handleMouseEnterOption,
+          "keypress__enter": this.handleMouseEnterOption
         },
         attrs: {
           "data-id": node.id
         }
       }, [this.renderArrow(), this.renderLabelContainer([this.renderCheckboxContainer([this.renderCheckbox()]), this.renderLabel()])]);
     },
-    renderSubOptionsList: function renderSubOptionsList() {
+    renderSubOptionsList: function renderSubOptionsList(id) {
       var h = this.$createElement;
       if (!this.shouldExpand) return null;
       return h("div", {
+        attrs: {
+          id: "".concat(id, "-submenu"),
+          role: "region",
+          tabindex: "-1"
+        },
         "class": "vue-treeselect__list"
       }, [this.renderSubOptions(), this.renderNoChildrenTip(), this.renderLoadingChildrenTip(), this.renderLoadingChildrenErrorTip()]);
     },
@@ -3146,6 +3152,12 @@ var Option = {
         };
         return h("div", {
           "class": "vue-treeselect__option-arrow-container",
+          attrs: {
+            tabindex: '0',
+            "aria-controls": "".concat(this.instance.$attrs.id, "-arrow"),
+            "aria-expanded": node.isExpanded ? 'true' : 'false',
+            "aria-label": "Click menu"
+          },
           on: {
             "mousedown": this.handleMouseDownOnArrow
           }
@@ -3327,10 +3339,9 @@ var Option = {
       }
     };
     var isSelected = false;
-    this.instance.selectedNodes.some(function (e) {
+    isSelected = "".concat(this.instance.selectedNodes.some(function (e) {
       return e.id === _this.node.id;
-    });
-    isSelected = "".concat(isSelected);
+    }));
     return h("div", {
       "class": listItemClass,
       attrs: {
@@ -3338,7 +3349,7 @@ var Option = {
         tabindex: "0",
         "aria-selected": isSelected
       }
-    }, [this.renderOption(), node.isBranch && h("transition", transitionProps, [this.renderSubOptionsList()])]);
+    }, [this.renderOption(this.node.id), node.isBranch && h("transition", transitionProps, [this.renderSubOptionsList(this.node.id)])]);
   }
 };
 /* harmony default export */ var Optionvue_type_script_lang_js_ = (Option);
