@@ -4241,6 +4241,13 @@ var Option = {
         'vue-treeselect__option--matched': instance.localSearch.active && node.isMatched,
         'vue-treeselect__option--hide': !this.shouldShow
       };
+      var props = {};
+      deepExtend(props, {
+        on: {
+          keydown: this.onEventListenerOption
+        },
+        ref: 'optionArrow'
+      });
       return h("div", {
         "class": optionClass,
         on: {
@@ -4257,14 +4264,22 @@ var Option = {
       return h("div", {
         attrs: {
           id: "".concat(id, "-submenu"),
-          role: "region",
+          role: "list",
           tabindex: "-1"
         },
         "class": "vue-treeselect__list"
       }, [this.renderSubOptions(), this.renderNoChildrenTip(), this.renderLoadingChildrenTip(), this.renderLoadingChildrenErrorTip()]);
     },
-    onEventListeners: function onEventListeners($event) {
-      if ($event.type === 'keydown' && $event.keyCode === 13) {
+    onEventListenerOption: function onEventListenerOption(evt) {
+      if (evt.type === 'keydown' && evt.keyCode === 13) {
+        var instance = this.instance,
+            node = this.node;
+        if (evt.target !== evt.currentTarget) return;
+        instance.setCurrentHighlightedOption(node, false);
+      }
+    },
+    onEventListeners: function onEventListeners(evt) {
+      if (evt.type === 'keydown' && evt.keyCode === 13) {
         var instance = this.instance,
             node = this.node;
         instance.toggleExpanded(node);
@@ -4384,7 +4399,11 @@ var Option = {
         countClassName: countClassName
       });
       return h("label", {
-        "class": labelClassName
+        "class": labelClassName,
+        attrs: {
+          tabindex: "0",
+          "aria-label": node.label
+        }
       }, [node.label, shouldShowCount && h("span", {
         "class": countClassName
       }, ["(", count, ")"])]);
@@ -4494,12 +4513,13 @@ var Option = {
       return e.id === _this.node.id;
     }));
     return h("div", {
-      "class": listItemClass,
       attrs: {
-        role: "option",
+        id: "".concat(node.id, "-").concat(node.index.join('-')),
+        role: "listitem",
         tabindex: "0",
         "aria-selected": isSelected
-      }
+      },
+      "class": listItemClass
     }, [this.renderOption(this.node.id), node.isBranch && h("transition", transitionProps, [this.renderSubOptionsList(this.node.id)])]);
   }
 };
