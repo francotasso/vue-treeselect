@@ -4281,6 +4281,7 @@ var Option = {
             appear: true
           }
         };
+        var props = {};
         var arrowClass = {
           'vue-treeselect__option-arrow': true,
           'vue-treeselect__option-arrow--rotated': this.shouldExpand
@@ -4288,9 +4289,12 @@ var Option = {
         var styleCaret = {
           appearance: 'caret'
         };
-        var attributes = {
-          on: this.onEventListeners
-        };
+        deepExtend(props, {
+          on: {
+            keydown: this.onEventListeners
+          },
+          ref: 'optionArrow'
+        });
         return h("div", babel_helper_vue_jsx_merge_props_default()([{
           "class": "vue-treeselect__option-arrow-container",
           style: styleCaret,
@@ -4300,7 +4304,7 @@ var Option = {
           on: {
             "mousedown": this.handleMouseDownOnArrow
           }
-        }, attributes, {
+        }, props, {
           attrs: {
             "aria-controls": "".concat(this.instance.$attrs.id, "-arrow"),
             "aria-expanded": node.isExpanded ? 'true' : 'false',
