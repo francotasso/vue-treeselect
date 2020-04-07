@@ -17,10 +17,10 @@ const expectedDistFiles = [
   // Currently there is no SourceMap for the minified CSS file.
   'vue-treeselect.min.css',
 ]
-// const actualFiles = fs.readdirSync(config.library.assetsRoot)
-// if (!shallowEqual(expectedDistFiles.sort(), actualFiles.sort())) {
-//   throw new Error('Built files are not as expected.')
-// }
+const actualFiles = fs.readdirSync(config.library.assetsRoot)
+if (!shallowEqual(expectedDistFiles.sort(), actualFiles.sort())) {
+  throw new Error('Built files are not as expected.')
+}
 
 function readFile(fileName) {
   return fs.readFileSync(path.join(config.library.assetsRoot, fileName))
