@@ -1,6 +1,6 @@
 <script>
   import { UNCHECKED, INDETERMINATE, CHECKED } from '../constants'
-  import { onLeftClick } from '../utils'
+  import { onLeftClick, deepExtend } from '../utils'
   import Tip from './Tip'
   import ArrowIcon from './icons/Arrow'
 
@@ -70,7 +70,10 @@
       },
 
       onEventListeners($event) {
-        console.log($event)
+        if ($event.type === 'keydown' && $event.keyCode === 13) {
+          const { instance, node } = this
+          instance.toggleExpanded(node)
+        }
       },
 
       renderArrow() {
@@ -85,16 +88,24 @@
               appear: true,
             },
           }
+          const props = {}
+
           const arrowClass = {
             'vue-treeselect__option-arrow': true,
             'vue-treeselect__option-arrow--rotated': this.shouldExpand,
           }
 
           const styleCaret = { appearance: 'caret' }
-          const attributes = { on: this.onEventListeners }
+
+          deepExtend(props, {
+            on: {
+              keydown: this.onEventListeners,
+            },
+            ref: 'optionArrow',
+          })
 
           return (
-            <div class="vue-treeselect__option-arrow-container" style={styleCaret} tabindex={'0'} onMousedown={this.handleMouseDownOnArrow} {...attributes} aria-controls={`${this.instance.$attrs.id}-arrow`} aria-expanded={ node.isExpanded ? 'true' : 'false'} aria-label="Click menu">
+            <div class="vue-treeselect__option-arrow-container" style={styleCaret} tabindex={'0'} onMousedown={this.handleMouseDownOnArrow} {...props} aria-controls={`${this.instance.$attrs.id}-arrow`} aria-expanded={ node.isExpanded ? 'true' : 'false'} aria-label="Click menu">
               <transition {...transitionProps}>
                 <ArrowIcon class={arrowClass} />
               </transition>
