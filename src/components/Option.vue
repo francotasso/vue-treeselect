@@ -143,7 +143,7 @@
         const node = this.node
         const instance = this.instance
         return (
-          <div class="vue-treeselect__label-container" onMousedown={this.handleMouseDownOnLabelContainer} tabindex={node.isBranch && instance.disableBranchNodes ? '-1' : '0'}>
+          <div type="button" class="vue-treeselect__label-container" onMousedown={this.handleMouseDownOnLabelContainer} keydown={this.onEventListenerOption} tabindex={node.isBranch && instance.disableBranchNodes ? '-1' : '0'}>
             {children}
           </div>
         )
@@ -322,7 +322,7 @@
           id={`${node.id}-${node.index.join('-')}`}
           class={listItemClass}
           role="listitem"
-          tabindex="0"
+          tabindex={node.isBranch && this.instance.disableBranchNodes ? '0' : '-1'}
           aria-selected={isSelected}>
           {this.renderOption(this.node.id)}
           {node.isBranch && (
