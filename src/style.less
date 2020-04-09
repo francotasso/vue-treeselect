@@ -790,6 +790,12 @@
   }
 }
 
+.vue-treeselect__option {
+  // Wiserskills change
+  position: relative;
+  // end change
+}
+
 .vue-treeselect__option--hide {
   display: none;
 }
@@ -800,7 +806,20 @@
 }
 
 .vue-treeselect__option-arrow-container {
+  // Wiserskills change
+  display: block !important;
+  background-color: transparent;
+  border: 0;
+  height: 28px !important;
+  width: 20px !important;
+  float: left !important;
+  // end change
   .clickable();
+}
+.vue-treeselect__option-arrow-placeholder{
+  // Wiserskills change
+  display: none !important;
+  // end change
 }
 
 .vue-treeselect__option-arrow {
@@ -846,6 +865,10 @@
   width: 100%;
   table-layout: fixed;
   color: @treeselect-option-label-color;
+  // Wiserskills change
+  width: calc(100% - 20px) !important; 
+  float: left;
+  // end change
 
   .vue-treeselect__option--disabled & {
     .forbidden();

@@ -570,6 +570,9 @@
 .vue-treeselect--single .vue-treeselect__option--selected:hover {
   background: #e3f2fd;
 }
+.vue-treeselect__option {
+  position: relative;
+}
 .vue-treeselect__option--hide {
   display: none;
 }
@@ -582,7 +585,16 @@
   line-height: 0;
 }
 .vue-treeselect__option-arrow-container {
+  display: block !important;
+  background-color: transparent;
+  border: 0;
+  height: 28px !important;
+  width: 20px !important;
+  float: left !important;
   cursor: pointer;
+}
+.vue-treeselect__option-arrow-placeholder {
+  display: none !important;
 }
 .vue-treeselect__option-arrow {
   display: inline-block;
@@ -626,6 +638,8 @@
   width: 100%;
   table-layout: fixed;
   color: inherit;
+  width: calc(100% - 20px) !important;
+  float: left;
 }
 .vue-treeselect__option--disabled .vue-treeselect__label-container {
   cursor: not-allowed;
