@@ -4346,12 +4346,14 @@ var Option = {
       var node = this.node;
       var instance = this.instance;
       return h("div", {
+        attrs: {
+          type: "button",
+          keydown: this.onEventListenerOption,
+          tabindex: node.isBranch && instance.disableBranchNodes ? '-1' : '0'
+        },
         "class": "vue-treeselect__label-container",
         on: {
           "mousedown": this.handleMouseDownOnLabelContainer
-        },
-        attrs: {
-          tabindex: node.isBranch && instance.disableBranchNodes ? '-1' : '0'
         }
       }, [children]);
     },
@@ -4521,7 +4523,7 @@ var Option = {
       attrs: {
         id: "".concat(node.id, "-").concat(node.index.join('-')),
         role: "listitem",
-        tabindex: "0",
+        tabindex: node.isBranch && this.instance.disableBranchNodes ? '0' : '-1',
         "aria-selected": isSelected
       },
       "class": listItemClass
