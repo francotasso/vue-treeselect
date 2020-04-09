@@ -35,24 +35,16 @@
       renderOption(idParent) {
         const { instance, node } = this
         const optionClass = {
-          'vue-treeselect__option': true,
+          'vue-treeselect__option clearfix': true,
           'vue-treeselect__option--disabled': node.isDisabled,
           'vue-treeselect__option--selected': instance.isSelected(node),
           'vue-treeselect__option--highlight': node.isHighlighted,
           'vue-treeselect__option--matched': instance.localSearch.active && node.isMatched,
           'vue-treeselect__option--hide': !this.shouldShow,
         }
-        const props = {}
-
-        deepExtend(props, {
-          on: {
-            keydown: this.onEventListenerOption,
-          },
-          ref: 'optionArrow',
-        })
 
         return (
-          <div class={optionClass} {...props} onMouseenter={this.handleMouseEnterOption} data-id={node.id}>
+          <div class={optionClass} onMouseenter={this.handleMouseEnterOption} data-id={node.id} aria-label={node.label} tabindex={node.isBranch && instance.disableBranchNodes ? '0' : '-1'} >
             {this.renderArrow()}
             {this.renderLabelContainer([
               this.renderCheckboxContainer([
@@ -81,11 +73,11 @@
         if (evt.type === 'keydown' && evt.keyCode === 13) {
           const { instance, node } = this
 
-          // Equivalent to `self` modifier.
-          // istanbul ignore next
-          if (evt.target !== evt.currentTarget) return
-
-          instance.setCurrentHighlightedOption(node, false)
+          if (node.isBranch && instance.disableBranchNodes) {
+            instance.toggleExpanded(node)
+          } else {
+            instance.select(node)
+          }
         }
       },
 
@@ -148,8 +140,10 @@
       },
 
       renderLabelContainer(children) {
+        const node = this.node
+        const instance = this.instance
         return (
-          <div class="vue-treeselect__label-container" onMousedown={this.handleMouseDownOnLabelContainer}>
+          <div class="vue-treeselect__label-container" onMousedown={this.handleMouseDownOnLabelContainer} tabindex={node.isBranch && instance.disableBranchNodes ? '-1' : '0'}>
             {children}
           </div>
         )
@@ -322,14 +316,13 @@
 
       let isSelected = false
       isSelected = `${this.instance.selectedNodes.some(e => e.id === this.node.id)}`
-
+      // aria-label={node.label}
       return (
         <div
           id={`${node.id}-${node.index.join('-')}`}
           class={listItemClass}
           role="listitem"
           tabindex="0"
-          aria-label={node.label}
           aria-selected={isSelected}>
           {this.renderOption(this.node.id)}
           {node.isBranch && (

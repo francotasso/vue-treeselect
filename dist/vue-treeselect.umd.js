@@ -4206,7 +4206,6 @@ Tip_component.options.__file = "src/components/Tip.vue"
 
 
 
-
 var arrowPlaceholder, checkMark, minusMark;
 var Option = {
   name: 'vue-treeselect--option',
@@ -4235,30 +4234,24 @@ var Option = {
       var instance = this.instance,
           node = this.node;
       var optionClass = {
-        'vue-treeselect__option': true,
+        'vue-treeselect__option clearfix': true,
         'vue-treeselect__option--disabled': node.isDisabled,
         'vue-treeselect__option--selected': instance.isSelected(node),
         'vue-treeselect__option--highlight': node.isHighlighted,
         'vue-treeselect__option--matched': instance.localSearch.active && node.isMatched,
         'vue-treeselect__option--hide': !this.shouldShow
       };
-      var props = {};
-      deepExtend(props, {
-        on: {
-          keydown: this.onEventListenerOption
-        },
-        ref: 'optionArrow'
-      });
-      return h("div", babel_helper_vue_jsx_merge_props_default()([{
-        "class": optionClass
-      }, props, {
+      return h("div", {
+        "class": optionClass,
         on: {
           "mouseenter": this.handleMouseEnterOption
         },
         attrs: {
-          "data-id": node.id
+          "data-id": node.id,
+          "aria-label": node.label,
+          tabindex: node.isBranch && instance.disableBranchNodes ? '0' : '-1'
         }
-      }]), [this.renderArrow(), this.renderLabelContainer([this.renderCheckboxContainer([this.renderCheckbox()]), this.renderLabel()])]);
+      }, [this.renderArrow(), this.renderLabelContainer([this.renderCheckboxContainer([this.renderCheckbox()]), this.renderLabel()])]);
     },
     renderSubOptionsList: function renderSubOptionsList(id) {
       var h = this.$createElement;
@@ -4276,8 +4269,12 @@ var Option = {
       if (evt.type === 'keydown' && evt.keyCode === 13) {
         var instance = this.instance,
             node = this.node;
-        if (evt.target !== evt.currentTarget) return;
-        instance.setCurrentHighlightedOption(node, false);
+
+        if (node.isBranch && instance.disableBranchNodes) {
+          instance.toggleExpanded(node);
+        } else {
+          instance.select(node);
+        }
       }
     },
     onEventListeners: function onEventListeners(evt) {
@@ -4346,10 +4343,15 @@ var Option = {
     },
     renderLabelContainer: function renderLabelContainer(children) {
       var h = this.$createElement;
+      var node = this.node;
+      var instance = this.instance;
       return h("div", {
         "class": "vue-treeselect__label-container",
         on: {
           "mousedown": this.handleMouseDownOnLabelContainer
+        },
+        attrs: {
+          tabindex: node.isBranch && instance.disableBranchNodes ? '-1' : '0'
         }
       }, [children]);
     },
@@ -4520,7 +4522,6 @@ var Option = {
         id: "".concat(node.id, "-").concat(node.index.join('-')),
         role: "listitem",
         tabindex: "0",
-        "aria-label": node.label,
         "aria-selected": isSelected
       },
       "class": listItemClass
