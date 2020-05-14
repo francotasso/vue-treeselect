@@ -104,6 +104,7 @@
 
         this.value = value
 
+        this.$emit('input-change', value)
         if (value) {
           this.debouncedCallback()
         } else {

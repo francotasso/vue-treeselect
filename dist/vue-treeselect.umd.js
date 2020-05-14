@@ -3427,6 +3427,7 @@ var keysThatRequireMenuBeingOpen = [KEY_CODES.ENTER, KEY_CODES.END, KEY_CODES.HO
     onInput: function onInput(evt) {
       var value = evt.target.value;
       this.value = value;
+      this.$emit('input-change', value);
 
       if (value) {
         this.debouncedCallback();
