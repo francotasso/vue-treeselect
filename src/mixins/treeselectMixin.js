@@ -678,7 +678,7 @@ export default {
         // User entered search query - value of the input.
         searchQuery: '',
       },
-
+      auxSearchQuery: '',
       menu: {
         // Is the menu opened?
         isOpen: false,
@@ -900,6 +900,10 @@ export default {
       }
 
       this.$emit('search-change', this.trigger.searchQuery, this.getInstanceId())
+    },
+
+    auxSearchQuery: function auxSearchQuery(val) {
+      this.$emit('input-change', val)
     },
 
     value() {

@@ -101,10 +101,9 @@
 
       onInput(evt) {
         const { value } = evt.target
-
+        this.instance.auxSearchQuery = value
         this.value = value
 
-        this.$emit('input-change', value)
         if (value) {
           this.debouncedCallback()
         } else {
@@ -116,6 +115,7 @@
       // 用 keyUp 事件存在一个问题，删除输入框最后一个字符也会导致取消选中最后一项
       onKeyDown(evt) {
         const { instance } = this
+
         // https://css-tricks.com/snippets/javascript/javascript-keycodes/
         // https://stackoverflow.com/questions/4471582/javascript-keycode-vs-which
         const key = 'which' in evt ? evt.which : /* istanbul ignore next */ evt.keyCode

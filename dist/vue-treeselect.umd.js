@@ -2017,6 +2017,7 @@ var instanceId = 0;
         isFocused: false,
         searchQuery: ''
       },
+      auxSearchQuery: '',
       menu: {
         isOpen: false,
         current: null,
@@ -2168,6 +2169,9 @@ var instanceId = 0;
       }
 
       this.$emit('search-change', this.trigger.searchQuery, this.getInstanceId());
+    },
+    auxSearchQuery: function auxSearchQuery(val) {
+      this.$emit('input-change', val);
     },
     value: function value() {
       var nodeIdsFromValue = this.extractCheckedNodeIdsFromValue();
@@ -3426,8 +3430,8 @@ var keysThatRequireMenuBeingOpen = [KEY_CODES.ENTER, KEY_CODES.END, KEY_CODES.HO
     },
     onInput: function onInput(evt) {
       var value = evt.target.value;
+      this.instance.auxSearchQuery = value;
       this.value = value;
-      this.$emit('input-change', value);
 
       if (value) {
         this.debouncedCallback();
