@@ -4101,8 +4101,8 @@ Arrow_component.options.__file = "src/components/icons/Arrow.vue"
       evt.preventDefault();
       evt.stopPropagation();
       var instance = this.instance;
-      instance.focusInput();
       instance.toggleMenu();
+      instance.focusInput();
     }),
     renderValueContainer: function renderValueContainer(children) {
       var h = this.$createElement;

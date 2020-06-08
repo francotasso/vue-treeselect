@@ -123,8 +123,8 @@
         const { instance } = this
 
         // Focus the input or prevent blurring.
-        instance.focusInput()
         instance.toggleMenu()
+        instance.focusInput()
       }),
 
       // This is meant to be called by child `<Value />` component.
