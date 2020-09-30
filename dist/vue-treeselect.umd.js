@@ -171,7 +171,7 @@ function _unsupportedIterableToArray(o, minLen) {
   if (typeof o === "string") return arrayLikeToArray(o, minLen);
   var n = Object.prototype.toString.call(o).slice(8, -1);
   if (n === "Object" && o.constructor) n = o.constructor.name;
-  if (n === "Map" || n === "Set") return Array.from(n);
+  if (n === "Map" || n === "Set") return Array.from(o);
   if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return arrayLikeToArray(o, minLen);
 }
 
@@ -885,6 +885,7 @@ module.exports = isObjectLike;
 /***/ (function(module, exports) {
 
 module.exports = isPromise;
+module.exports.default = isPromise;
 
 function isPromise(obj) {
   return !!obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
@@ -2368,7 +2369,7 @@ var instanceId = 0;
       this.forest.selectedNodeIds.forEach(function (id) {
         if (!prevNodeMap[id]) return;
 
-        var node = _objectSpread({}, prevNodeMap[id], {
+        var node = _objectSpread(_objectSpread({}, prevNodeMap[id]), {}, {
           isFallbackNode: true
         });
 
@@ -2574,7 +2575,7 @@ var instanceId = 0;
 
       var searchQuery = this.trigger.searchQuery;
 
-      var entry = this.remoteSearch[searchQuery] || _objectSpread({}, createAsyncOptionsStates(), {
+      var entry = this.remoteSearch[searchQuery] || _objectSpread(_objectSpread({}, createAsyncOptionsStates()), {}, {
         options: []
       });
 
@@ -2756,7 +2757,7 @@ var instanceId = 0;
       this.forest.checkedStateMap = checkedStateMap;
     },
     enhancedNormalizer: function enhancedNormalizer(raw) {
-      return _objectSpread({}, raw, {}, this.normalizer(raw, this.getInstanceId()));
+      return _objectSpread(_objectSpread({}, raw), this.normalizer(raw, this.getInstanceId()));
     },
     normalize: function normalize(parentNode, nodes, prevNodeMap) {
       var _this16 = this;
@@ -2784,7 +2785,7 @@ var instanceId = 0;
         var isNew = !!node.isNew;
 
         var lowerCased = _this16.matchKeys.reduce(function (prev, key) {
-          return _objectSpread({}, prev, defineProperty_default()({}, key, stringifyOptionPropValue(node[key]).toLocaleLowerCase()));
+          return _objectSpread(_objectSpread({}, prev), {}, defineProperty_default()({}, key, stringifyOptionPropValue(node[key]).toLocaleLowerCase()));
         }, {});
 
         var nestedSearchLabel = isRootNode ? lowerCased.label : parentNode.nestedSearchLabel + ' ' + lowerCased.label;
@@ -2828,7 +2829,7 @@ var instanceId = 0;
 
           var isLoaded = Array.isArray(children);
 
-          _this16.$set(normalized, 'childrenStates', _objectSpread({}, createAsyncOptionsStates(), {
+          _this16.$set(normalized, 'childrenStates', _objectSpread(_objectSpread({}, createAsyncOptionsStates()), {}, {
             isLoaded: isLoaded
           }));
 
@@ -2985,11 +2986,11 @@ var instanceId = 0;
 
         end();
       });
-      var result = this.loadOptions(_objectSpread({
+      var result = this.loadOptions(_objectSpread(_objectSpread({
         id: this.getInstanceId(),
         instanceId: this.getInstanceId(),
         action: action
-      }, args, {
+      }, args), {}, {
         callback: callback
       }));
 
@@ -3298,7 +3299,12 @@ function normalizeComponent (
     options._ssrRegister = hook
   } else if (injectStyles) {
     hook = shadowMode
-      ? function () { injectStyles.call(this, this.$root.$options.shadowRoot) }
+      ? function () {
+        injectStyles.call(
+          this,
+          (options.functional ? this.parent : this).$root.$options.shadowRoot
+        )
+      }
       : injectStyles
   }
 
@@ -3361,12 +3367,12 @@ var babel_helper_vue_jsx_merge_props_default = /*#__PURE__*/__webpack_require__.
 
 var keysThatRequireMenuBeingOpen = [KEY_CODES.ENTER, KEY_CODES.END, KEY_CODES.HOME, KEY_CODES.ARROW_LEFT, KEY_CODES.ARROW_UP, KEY_CODES.ARROW_RIGHT, KEY_CODES.ARROW_DOWN];
 /* harmony default export */ var Inputvue_type_script_lang_js_ = ({
-  name: 'vue-treeselect--input',
-  inject: ['instance'],
+  name: "vue-treeselect--input",
+  inject: ["instance"],
   data: function data() {
     return {
       inputWidth: MIN_INPUT_WIDTH,
-      value: ''
+      value: ""
     };
   },
   computed: {
@@ -3381,7 +3387,7 @@ var keysThatRequireMenuBeingOpen = [KEY_CODES.ENTER, KEY_CODES.END, KEY_CODES.HO
     }
   },
   watch: {
-    'instance.trigger.searchQuery': function instanceTriggerSearchQuery(newValue) {
+    "instance.trigger.searchQuery": function instanceTriggerSearchQuery(newValue) {
       this.value = newValue;
     },
     value: function value() {
@@ -3389,8 +3395,8 @@ var keysThatRequireMenuBeingOpen = [KEY_CODES.ENTER, KEY_CODES.END, KEY_CODES.HO
     }
   },
   created: function created() {
-    this.debouncedCallback = debounce_default()(this.updateSearchQuery, this.instance.inputDebounceDelay, {
-      leading: false,
+    this.debouncedCallback = debounce_default()(this.updateSearchQuery, INPUT_DEBOUNCE_DELAY, {
+      leading: true,
       trailing: true
     });
   },
@@ -3398,7 +3404,7 @@ var keysThatRequireMenuBeingOpen = [KEY_CODES.ENTER, KEY_CODES.END, KEY_CODES.HO
     clear: function clear() {
       this.onInput({
         target: {
-          value: ''
+          value: ""
         }
       });
     },
@@ -3442,7 +3448,7 @@ var keysThatRequireMenuBeingOpen = [KEY_CODES.ENTER, KEY_CODES.END, KEY_CODES.HO
     },
     onKeyDown: function onKeyDown(evt) {
       var instance = this.instance;
-      var key = 'which' in evt ? evt.which : evt.keyCode;
+      var key = "which" in evt ? evt.which : evt.keyCode;
       if (evt.ctrlKey || evt.shiftKey || evt.altKey || evt.metaKey) return;
 
       if (!instance.menu.isOpen && includes(keysThatRequireMenuBeingOpen, key)) {
@@ -3573,7 +3579,7 @@ var keysThatRequireMenuBeingOpen = [KEY_CODES.ENTER, KEY_CODES.END, KEY_CODES.HO
             focus: this.onFocus,
             keydown: this.onKeyDown
           },
-          ref: 'input'
+          ref: "input"
         });
       }
 
