@@ -526,7 +526,7 @@ var KEY_CODES = {
   ARROW_DOWN: 40,
   DELETE: 46
 };
-var INPUT_DEBOUNCE_DELAY = process.env.NODE_ENV === 'testing' ? 10 : 200;
+var INPUT_DEBOUNCE_DELAY = process.env.NODE_ENV === 'testing' ? 10 : 50;
 var MIN_INPUT_WIDTH = 5;
 var MENU_BUFFER = 40;
 // EXTERNAL MODULE: external "fuzzysearch"
@@ -2299,7 +2299,6 @@ var keysThatRequireMenuBeingOpen = [KEY_CODES.ENTER, KEY_CODES.END, KEY_CODES.HO
       }
 
       instance.trigger.isFocused = false;
-      instance.closeMenu();
     },
     onInput: function onInput(evt) {
       var value = evt.target.value;
@@ -2444,6 +2443,7 @@ var keysThatRequireMenuBeingOpen = [KEY_CODES.ENTER, KEY_CODES.END, KEY_CODES.HO
         deepExtend(props, {
           on: {
             focus: this.onFocus,
+            blur: this.onBlur,
             keydown: this.onKeyDown
           },
           ref: "input"
@@ -2481,6 +2481,7 @@ var keysThatRequireMenuBeingOpen = [KEY_CODES.ENTER, KEY_CODES.END, KEY_CODES.HO
         on: {
           "focus": this.onFocus,
           "input": this.onInput,
+          "blur": this.onBlur,
           "keydown": this.onKeyDown,
           "mousedown": this.onMouseDown
         }
