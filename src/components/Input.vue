@@ -84,15 +84,13 @@ export default {
     onBlur() {
       const { instance } = this;
       const menu = instance.getMenu();
-
       // #15
       // istanbul ignore next
       if (menu && document.activeElement === menu) {
         return this.focus();
       }
-
       instance.trigger.isFocused = false;
-      instance.closeMenu();
+      //instance.closeMenu();
     },
 
     onInput(evt) {
@@ -229,7 +227,7 @@ export default {
         deepExtend(props, {
           on: {
             focus: this.onFocus,
-            // blur: this.onBlur,
+            blur: this.onBlur,
             keydown: this.onKeyDown,
           },
           ref: "input",
@@ -253,7 +251,6 @@ export default {
 
     renderInput() {
       const { instance } = this;
-      // onBlur={this.onBlur}
       return (
         <input
           ref="input"
@@ -266,6 +263,7 @@ export default {
           style={this.inputStyle}
           onFocus={this.onFocus}
           onInput={this.onInput}
+          onBlur={this.onBlur}
           onKeydown={this.onKeyDown}
           onMousedown={this.onMouseDown}
         />
