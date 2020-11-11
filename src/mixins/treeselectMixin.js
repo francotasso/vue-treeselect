@@ -1,5 +1,6 @@
 import {
   warning,
+  debounce,
   onLeftClick, scrollIntoView,
   isNaN, isPromise, once,
   identity, constant, createMap,
@@ -668,6 +669,14 @@ export default {
       type: Boolean,
       default: false,
     },
+
+    /**
+     * Debounce Event Input Change
+     */
+    activeDebInputChange: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   data() {
@@ -718,6 +727,8 @@ export default {
 
       // <searchQuery, remoteSearchEntry> map.
       remoteSearch: createMap(),
+
+      debounceQuery: debounce((val) => this.$emit('input-change', val), this.inputDebounceDelay)
     }
   },
 
@@ -903,7 +914,11 @@ export default {
     },
 
     auxSearchQuery: function auxSearchQuery(val) {
-      this.$emit('input-change', val)
+      if (this.activeDebInputChange) {
+        this.debounceQuery(val);
+      } else {
+        this.$emit('input-change', val)
+      }
     },
 
     value() {
