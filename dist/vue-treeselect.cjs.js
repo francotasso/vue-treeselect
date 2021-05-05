@@ -1,5 +1,5 @@
 /*!
- * vue-treeselect v0.4.0 | (c) 2017-2020 Riophae Lee
+ * vue-treeselect v0.4.0 | (c) 2017-2021 Riophae Lee
  * Released under the MIT License.
  * https://vue-treeselect.js.org/
  */
@@ -538,7 +538,7 @@ var external_fuzzysearch_default = /*#__PURE__*/__webpack_require__.n(external_f
 
 
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { defineProperty_default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
@@ -1359,54 +1359,56 @@ var instanceId = 0;
         return done();
       }
 
-      this.localSearch.active = true;
-      this.localSearch.noResults = true;
-      this.traverseAllNodesDFS(function (node) {
-        if (node.isBranch) {
-          var _this12$$set;
+      if (searchQuery.length > 3) {
+        this.localSearch.active = true;
+        this.localSearch.noResults = true;
+        this.traverseAllNodesDFS(function (node) {
+          if (node.isBranch) {
+            var _this12$$set;
 
-          node.isExpandedOnSearch = false;
-          node.showAllChildrenOnSearch = false;
-          node.isMatched = false;
-          node.hasMatchedDescendants = false;
+            node.isExpandedOnSearch = false;
+            node.showAllChildrenOnSearch = false;
+            node.isMatched = false;
+            node.hasMatchedDescendants = false;
 
-          _this12.$set(_this12.localSearch.countMap, node.id, (_this12$$set = {}, defineProperty_default()(_this12$$set, ALL_CHILDREN, 0), defineProperty_default()(_this12$$set, ALL_DESCENDANTS, 0), defineProperty_default()(_this12$$set, LEAF_CHILDREN, 0), defineProperty_default()(_this12$$set, LEAF_DESCENDANTS, 0), _this12$$set));
-        }
-      });
-      var lowerCasedSearchQuery = searchQuery.trim().toLocaleLowerCase();
-      var splitSearchQuery = lowerCasedSearchQuery.replace(/\s+/g, ' ').split(' ');
-      this.traverseAllNodesDFS(function (node) {
-        if (_this12.searchNested && splitSearchQuery.length > 1) {
-          node.isMatched = splitSearchQuery.every(function (filterValue) {
-            return match(false, false, filterValue, node.nestedSearchLabel);
-          });
-        } else {
-          node.isMatched = _this12.matchKeys.some(function (matchKey) {
-            return match(!_this12.disableFuzzyMatching, _this12.replaceAccents, lowerCasedSearchQuery, node.lowerCased[matchKey]);
-          });
-        }
-
-        if (node.isMatched) {
-          _this12.localSearch.noResults = false;
-          node.ancestors.forEach(function (ancestor) {
-            return _this12.localSearch.countMap[ancestor.id][ALL_DESCENDANTS]++;
-          });
-          if (node.isLeaf) node.ancestors.forEach(function (ancestor) {
-            return _this12.localSearch.countMap[ancestor.id][LEAF_DESCENDANTS]++;
-          });
-
-          if (node.parentNode !== NO_PARENT_NODE) {
-            _this12.localSearch.countMap[node.parentNode.id][ALL_CHILDREN] += 1;
-            if (node.isLeaf) _this12.localSearch.countMap[node.parentNode.id][LEAF_CHILDREN] += 1;
+            _this12.$set(_this12.localSearch.countMap, node.id, (_this12$$set = {}, defineProperty_default()(_this12$$set, ALL_CHILDREN, 0), defineProperty_default()(_this12$$set, ALL_DESCENDANTS, 0), defineProperty_default()(_this12$$set, LEAF_CHILDREN, 0), defineProperty_default()(_this12$$set, LEAF_DESCENDANTS, 0), _this12$$set));
           }
-        }
+        });
+        var lowerCasedSearchQuery = searchQuery.trim().toLocaleLowerCase();
+        var splitSearchQuery = lowerCasedSearchQuery.replace(/\s+/g, ' ').split(' ');
+        this.traverseAllNodesDFS(function (node) {
+          if (_this12.searchNested && splitSearchQuery.length > 1) {
+            node.isMatched = splitSearchQuery.every(function (filterValue) {
+              return match(false, false, filterValue, node.nestedSearchLabel);
+            });
+          } else {
+            node.isMatched = _this12.matchKeys.some(function (matchKey) {
+              return match(!_this12.disableFuzzyMatching, _this12.replaceAccents, lowerCasedSearchQuery, node.lowerCased[matchKey]);
+            });
+          }
 
-        if ((node.isMatched || node.isBranch && node.isExpandedOnSearch) && node.parentNode !== NO_PARENT_NODE) {
-          node.parentNode.isExpandedOnSearch = true;
-          node.parentNode.hasMatchedDescendants = true;
-        }
-      });
-      done();
+          if (node.isMatched) {
+            _this12.localSearch.noResults = false;
+            node.ancestors.forEach(function (ancestor) {
+              return _this12.localSearch.countMap[ancestor.id][ALL_DESCENDANTS]++;
+            });
+            if (node.isLeaf) node.ancestors.forEach(function (ancestor) {
+              return _this12.localSearch.countMap[ancestor.id][LEAF_DESCENDANTS]++;
+            });
+
+            if (node.parentNode !== NO_PARENT_NODE) {
+              _this12.localSearch.countMap[node.parentNode.id][ALL_CHILDREN] += 1;
+              if (node.isLeaf) _this12.localSearch.countMap[node.parentNode.id][LEAF_CHILDREN] += 1;
+            }
+          }
+
+          if ((node.isMatched || node.isBranch && node.isExpandedOnSearch) && node.parentNode !== NO_PARENT_NODE) {
+            node.parentNode.isExpandedOnSearch = true;
+            node.parentNode.hasMatchedDescendants = true;
+          }
+        });
+        done();
+      }
     },
     handleRemoteSearch: function handleRemoteSearch() {
       var _this13 = this;
@@ -3767,7 +3769,7 @@ var external_vue_default = /*#__PURE__*/__webpack_require__.n(external_vue_);
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./src/components/MenuPortal.vue?vue&type=script&lang=js&
 
 
-function MenuPortalvue_type_script_lang_js_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function MenuPortalvue_type_script_lang_js_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function MenuPortalvue_type_script_lang_js_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { MenuPortalvue_type_script_lang_js_ownKeys(Object(source), true).forEach(function (key) { defineProperty_default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { MenuPortalvue_type_script_lang_js_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
