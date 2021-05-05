@@ -339,7 +339,7 @@ export default {
     instanceId: {
       // Add two trailing "$" to distinguish from explictly specified ids.
       default: () => `${instanceId++}$$`,
-      type: [ String, Number ],
+      type: [String, Number],
     },
 
     /**
@@ -391,7 +391,7 @@ export default {
      */
     matchKeys: {
       type: Array,
-      default: constant([ 'label' ]),
+      default: constant(['label']),
     },
 
     /**
@@ -466,7 +466,7 @@ export default {
       type: String,
       default: 'auto',
       validator(value) {
-        const acceptableValues = [ 'auto', 'top', 'bottom', 'above', 'below' ]
+        const acceptableValues = ['auto', 'top', 'bottom', 'above', 'below']
         return includes(acceptableValues, value)
       },
     },
@@ -571,7 +571,7 @@ export default {
       type: String,
       default: ALL_CHILDREN,
       validator(value) {
-        const acceptableValues = [ ALL_CHILDREN, ALL_DESCENDANTS, LEAF_CHILDREN, LEAF_DESCENDANTS ]
+        const acceptableValues = [ALL_CHILDREN, ALL_DESCENDANTS, LEAF_CHILDREN, LEAF_DESCENDANTS]
         return includes(acceptableValues, value)
       },
     },
@@ -595,7 +595,7 @@ export default {
       type: String,
       default: ORDER_SELECTED,
       validator(value) {
-        const acceptableValues = [ ORDER_SELECTED, LEVEL, INDEX ]
+        const acceptableValues = [ORDER_SELECTED, LEVEL, INDEX]
         return includes(acceptableValues, value)
       },
     },
@@ -629,7 +629,7 @@ export default {
       type: String,
       default: BRANCH_PRIORITY,
       validator(value) {
-        const acceptableValues = [ ALL, BRANCH_PRIORITY, LEAF_PRIORITY, ALL_WITH_INDETERMINATE ]
+        const acceptableValues = [ALL, BRANCH_PRIORITY, LEAF_PRIORITY, ALL_WITH_INDETERMINATE]
         return includes(acceptableValues, value)
       },
     },
@@ -650,7 +650,7 @@ export default {
      * z-index of the menu.
      */
     zIndex: {
-      type: [ Number, String ],
+      type: [Number, String],
       default: 999,
     },
 
@@ -1039,7 +1039,7 @@ export default {
         isBranch: false,
         isDisabled: false,
         isNew: false,
-        index: [ -1 ],
+        index: [-1],
         level: 0,
         raw,
       }
@@ -1053,10 +1053,10 @@ export default {
       if (this.valueFormat === 'id') {
         return this.multiple
           ? this.value.slice()
-          : [ this.value ]
+          : [this.value]
       }
 
-      return (this.multiple ? this.value : [ this.value ])
+      return (this.multiple ? this.value : [this.value])
         .map(node => this.enhancedNormalizer(node))
         .map(node => node.id)
     },
@@ -1070,7 +1070,7 @@ export default {
 
       const valueArray = this.multiple
         ? Array.isArray(this.value) ? this.value : []
-        : this.value ? [ this.value ] : []
+        : this.value ? [this.value] : []
       const matched = find(
         valueArray,
         node => node && this.enhancedNormalizer(node).id === id,
@@ -1246,67 +1246,68 @@ export default {
     handleLocalSearch() {
       const { searchQuery } = this.trigger
       const done = () => this.resetHighlightedOptionWhenNecessary(true)
-
       if (!searchQuery) {
         // Exit sync search mode.
         this.localSearch.active = false
         return done()
       }
 
-      // Enter sync search mode.
-      this.localSearch.active = true
+      if (searchQuery.length > 3) {
+        // Enter sync search mode.
+        this.localSearch.active = true
 
-      // Reset states.
-      this.localSearch.noResults = true
-      this.traverseAllNodesDFS(node => {
-        if (node.isBranch) {
-          node.isExpandedOnSearch = false
-          node.showAllChildrenOnSearch = false
-          node.isMatched = false
-          node.hasMatchedDescendants = false
-          this.$set(this.localSearch.countMap, node.id, {
-            [ALL_CHILDREN]: 0,
-            [ALL_DESCENDANTS]: 0,
-            [LEAF_CHILDREN]: 0,
-            [LEAF_DESCENDANTS]: 0,
-          })
-        }
-      })
-
-      const lowerCasedSearchQuery = searchQuery.trim().toLocaleLowerCase()
-      const splitSearchQuery = lowerCasedSearchQuery.replace(/\s+/g, ' ').split(' ')
-      this.traverseAllNodesDFS(node => {
-        if (this.searchNested && splitSearchQuery.length > 1) {
-          node.isMatched = splitSearchQuery.every(filterValue =>
-            match(false, false, filterValue, node.nestedSearchLabel),
-          )
-        } else {
-          node.isMatched = this.matchKeys.some(matchKey =>
-            match(!this.disableFuzzyMatching, this.replaceAccents, lowerCasedSearchQuery, node.lowerCased[matchKey]),
-          )
-        }
-
-        if (node.isMatched) {
-          this.localSearch.noResults = false
-          node.ancestors.forEach(ancestor => this.localSearch.countMap[ancestor.id][ALL_DESCENDANTS]++)
-          if (node.isLeaf) node.ancestors.forEach(ancestor => this.localSearch.countMap[ancestor.id][LEAF_DESCENDANTS]++)
-          if (node.parentNode !== NO_PARENT_NODE) {
-            this.localSearch.countMap[node.parentNode.id][ALL_CHILDREN] += 1
-            // istanbul ignore else
-            if (node.isLeaf) this.localSearch.countMap[node.parentNode.id][LEAF_CHILDREN] += 1
+        // Reset states.
+        this.localSearch.noResults = true
+        this.traverseAllNodesDFS(node => {
+          if (node.isBranch) {
+            node.isExpandedOnSearch = false
+            node.showAllChildrenOnSearch = false
+            node.isMatched = false
+            node.hasMatchedDescendants = false
+            this.$set(this.localSearch.countMap, node.id, {
+              [ALL_CHILDREN]: 0,
+              [ALL_DESCENDANTS]: 0,
+              [LEAF_CHILDREN]: 0,
+              [LEAF_DESCENDANTS]: 0,
+            })
           }
-        }
+        })
 
-        if (
-          (node.isMatched || (node.isBranch && node.isExpandedOnSearch)) &&
-          node.parentNode !== NO_PARENT_NODE
-        ) {
-          node.parentNode.isExpandedOnSearch = true
-          node.parentNode.hasMatchedDescendants = true
-        }
-      })
+        const lowerCasedSearchQuery = searchQuery.trim().toLocaleLowerCase()
+        const splitSearchQuery = lowerCasedSearchQuery.replace(/\s+/g, ' ').split(' ')
+        this.traverseAllNodesDFS(node => {
+          if (this.searchNested && splitSearchQuery.length > 1) {
+            node.isMatched = splitSearchQuery.every(filterValue =>
+              match(false, false, filterValue, node.nestedSearchLabel),
+            )
+          } else {
+            node.isMatched = this.matchKeys.some(matchKey =>
+              match(!this.disableFuzzyMatching, this.replaceAccents, lowerCasedSearchQuery, node.lowerCased[matchKey]),
+            )
+          }
 
-      done()
+          if (node.isMatched) {
+            this.localSearch.noResults = false
+            node.ancestors.forEach(ancestor => this.localSearch.countMap[ancestor.id][ALL_DESCENDANTS]++)
+            if (node.isLeaf) node.ancestors.forEach(ancestor => this.localSearch.countMap[ancestor.id][LEAF_DESCENDANTS]++)
+            if (node.parentNode !== NO_PARENT_NODE) {
+              this.localSearch.countMap[node.parentNode.id][ALL_CHILDREN] += 1
+              // istanbul ignore else
+              if (node.isLeaf) this.localSearch.countMap[node.parentNode.id][LEAF_CHILDREN] += 1
+            }
+          }
+
+          if (
+            (node.isMatched || (node.isBranch && node.isExpandedOnSearch)) &&
+            node.parentNode !== NO_PARENT_NODE
+          ) {
+            node.parentNode.isExpandedOnSearch = true
+            node.parentNode.hasMatchedDescendants = true
+          }
+        })
+
+        done()
+      }
     },
 
     handleRemoteSearch() {
@@ -1567,8 +1568,8 @@ export default {
 
     normalize(parentNode, nodes, prevNodeMap) {
       let normalizedOptions = nodes
-        .map(node => [ this.enhancedNormalizer(node), node ])
-        .map(([ node, raw ], index) => {
+        .map(node => [this.enhancedNormalizer(node), node])
+        .map(([node, raw], index) => {
           this.checkDuplication(node)
           this.verifyNodeShape(node)
 
@@ -1591,7 +1592,7 @@ export default {
           this.$set(normalized, 'id', id)
           this.$set(normalized, 'label', label)
           this.$set(normalized, 'level', level)
-          this.$set(normalized, 'ancestors', isRootNode ? [] : [ parentNode ].concat(parentNode.ancestors))
+          this.$set(normalized, 'ancestors', isRootNode ? [] : [parentNode].concat(parentNode.ancestors))
           this.$set(normalized, 'index', (isRootNode ? [] : parentNode.index).concat(index))
           this.$set(normalized, 'parentNode', parentNode)
           this.$set(normalized, 'lowerCased', lowerCased)
