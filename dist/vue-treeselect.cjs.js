@@ -874,6 +874,10 @@ var instanceId = 0;
       type: Number,
       default: INPUT_DEBOUNCE_DELAY
     },
+    minSearchLength: {
+      type: Number,
+      default: 0
+    },
     replaceAccents: {
       type: Boolean,
       default: false
@@ -1359,7 +1363,7 @@ var instanceId = 0;
         return done();
       }
 
-      if (searchQuery.length > 3) {
+      if (searchQuery.length > this.minSearchLength) {
         this.localSearch.active = true;
         this.localSearch.noResults = true;
         this.traverseAllNodesDFS(function (node) {

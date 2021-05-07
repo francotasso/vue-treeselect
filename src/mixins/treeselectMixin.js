@@ -661,6 +661,13 @@ export default {
       type: Number,
       default: INPUT_DEBOUNCE_DELAY,
     },
+    /**
+     * Sync search throttling delay.
+     */
+    minSearchLength: {
+      type: Number,
+      default: 0,
+    },
 
     /**
      * Replace accents for normal letter
@@ -1252,7 +1259,7 @@ export default {
         return done()
       }
 
-      if (searchQuery.length > 3) {
+      if (searchQuery.length > this.minSearchLength) {
         // Enter sync search mode.
         this.localSearch.active = true
 
